@@ -1,18 +1,17 @@
-## I. Codebase
-### One codebase tracked in revision control, many deploys
+## I. コードベース
+### バージョン管理されている1つのコードベースと複数のデプロイ
 
-A twelve-factor app is always tracked in a version control system, such as [Git](http://git-scm.com/), [Mercurial](http://mercurial.selenic.com/), or [Subversion](http://subversion.apache.org/).  A copy of the revision tracking database is known as a *code repository*, often shortened to *code repo* or just *repo*.
+twelve-factor appは[Git](http://git-scm.com/)や[Mercurial](http://mercurial.selenic.com/)、[Subversion](http://subversion.apache.org/)などのバージョン管理システムで常に変更を追跡している。リビジョン追跡データベースのコピーは*コードリポジトリ*として知られており、単に*リポジトリ*とも言われる。
 
-A *codebase* is any single repo (in a centralized revision control system like Subversion), or any set of repos who share a root commit (in a decentralized revision control system like Git).
+*コードベース*は、単一のリポジトリ（Subversionのような集中バージョン管理システムの場合）またはrootコミットを共有する複数のリポジトリ（Gitのような分散バージョン管理システムの場合）である。
 
-![One codebase maps to many deploys](/images/codebase-deploys.png)
+![1つのコードベースは複数のデプロイにマッピングされる](/images/codebase-deploys.png)
 
-There is always a one-to-one correlation between the codebase and the app:
+コードベースとアプリケーションの間には、常に1対1の関係がある。
 
-* If there are multiple codebases, it's not an app -- it's a distributed system.  Each component in a distributed system is an app, and each can individually comply with twelve-factor.
-* Multiple apps sharing the same code is a violation of twelve-factor.  The solution here is to factor shared code into libraries which can be included through the [dependency manager](/dependencies).
+* もし複数のコードベースがある場合、それはアプリケーションではない ― それは分散システムである。分散システムのそれぞれのコンポーネントがアプリケーションであり、個別にtwelve-factorに適合することができる。
+* 同じコードを共有する複数のアプリケーションは、twelve-factorに違反している。その場合の解決策は、共通のコードをライブラリに分解し、そのライブラリを[依存関係管理ツール](/dependencies)で組み込むようにすることである。
 
-There is only one codebase per app, but there will be many deploys of the app.  A *deploy* is a running instance of the app.  This is typically a production site, and one or more staging sites.  Additionally, every developer has a copy of the app running in their local development environment, each of which also qualifies as a deploy.
+アプリケーションごとにただ1つのコードベースが存在するが、アプリケーションのデプロイは複数存在する。*デプロイ*はアプリケーションの実行中のインスタンスである。これは通常1つの本番サイトと、1つもしくは複数のステージングサイトである。さらに全ての開発者は彼らのローカル開発環境で動作するアプリケーションのコピーを持っており、それらもデプロイと見なせる。
 
-The codebase is the same across all deploys, although different versions may be active in each deploy.  For example, a developer has some commits not yet deployed to staging; staging has some commits not yet deployed to production.  But they all share the same codebase, thus making them identifiable as different deploys of the same app.
-
+デプロイごとに異なるバージョンがアクティブであるかもしれないが、コードベースは全てのデプロイを通して同一である。例えば、開発者はステージング環境にまだデプロイされていないコミットを抱えているし、ステージング環境には本番環境にデプロイされていないコミットが含まれている。しかし、これのデプロイは全ての同一のコードベースを共有しているため、同一のアプリケーションの異なるデプロイであると認識できる。
