@@ -1,23 +1,22 @@
-## III. Config
-### Store config in the environment
+## III. 設定
+### 設定を環境変数に格納する
 
-An app's *config* is everything that is likely to vary between [deploys](/codebase) (staging, production, developer environments, etc).  This includes:
+アプリケーションの*設定*は、[デプロイ](/codebase) (ステージング、本番、開発環境など)の間で異なり得る唯一のものである。設定には以下のものが含まれる。
 
-* Resource handles to the database, Memcached, and other [backing services](/backing-services)
-* Credentials to external services such as Amazon S3 or Twitter
-* Per-deploy values such as the canonical hostname for the deploy
+* データベース、Memcached、他の[バックエンドのサービス](/backing-services)などのリソースへのハンドル 
+* Amazon S3やTwitterなどの外部サービスの認証情報
+* デプロイされたホストの正規化されたホスト名など、デプロイごとの値
 
-Apps sometimes store config as constants in the code.  This is a violation of twelve-factor, which requires **strict separation of config from code**.  Config varies substantially across deploys, code does not.
+アプリケーションは時に設定を定数としてコード内に格納する。これはtwelve-factorに違反している。twelve-factorは**設定をコードから厳密に分離すること**を要求する。設定はデプロイごとに大きく異なるが、コードはそうではない。
 
-A litmus test for whether an app has all config correctly factored out of the code is whether the codebase could be made open source at any moment, without compromising any credentials.
+アプリケーションが全ての設定をコードの外部に正しく分離できているかどうかのリトマステストは、認証情報を漏洩させることなく、コードベースを今すぐにでもオープンソースにすることができるかどうかである。
 
-Note that this definition of "config" does **not** include internal application config, such as `config/routes.rb` in Rails, or how [code modules are connected](http://static.springsource.org/spring/docs/2.5.x/reference/beans.html) in [Spring](http://www.springsource.org/).  This type of config does not vary between deploys, and so is best done in the code.
+なお、この"設定"の定義には、アプリケーション内部の設定は**含まない**ことに注意する。内部の設定とは、Railsにおける`config/routes.rb`や、[Spring](http://www.springsource.org/)において[コードモジュールがどう接続されるか](http://static.springsource.org/spring/docs/2.5.x/reference/beans.html)などの設定を指す。
 
-Another approach to config is the use of config files which are not checked into revision control, such as `config/database.yml` in Rails.  This is a huge improvement over using constants which are checked into the code repo, but still has weaknesses: it's easy to mistakenly check in a config file to the repo; there is a tendency for config files to be scattered about in different places and different formats, making it hard to see and manage all the config in one place.  Further, these formats tend to be language- or framework-specific.
+設定に対するもう1つのアプローチは、Railsにおける`config/database.yml`のようなバージョン管理システムにチェックインされない設定ファイルを使う方法である。この方法は、リポジトリにチェックインされる定数を使うことに比べたら非常に大きな進歩であるが、まだ弱点がある。設定ファイルが誤ってリポジトリにチェックインされやすいことと、設定ファイルが異なる場所に異なるフォーマットで散乱し、すべての設定を一つの場所で見たり管理したりすることが難しくなりがちであることである。その上、これらフォーマットは言語やフレームワークに固有のものになりがちである。
 
-**The twelve-factor app stores config in *environment variables*** (often shortened to *env vars* or *env*).  Env vars are easy to change between deploys without changing any code; unlike config files, there is little chance of them being checked into the code repo accidentally; and unlike custom config files, or other config mechanisms such as Java System Properties, they are a language- and OS-agnostic standard.
+**twelve-factor appは設定を*環境変数*に格納する。** 環境変数は、コードを変更することなくデプロイごとに簡単に変更することができる。設定ファイルとは異なり、誤ってリポジトリにチェックインされる可能性はほとんどない。また、独自の設定ファイルや他の設定の仕組み（Java System Propertiesなど）とは異なり、環境変数は言語やOSに依存しない標準である。
 
-Another aspect of config management is grouping.  Sometimes apps batch config into named groups (often called "environments") named after specific deploys, such as the `development`, `test`, and `production` environments in Rails.  This method does not scale cleanly: as more deploys of the app are created, new environment names are necessary, such as `staging` or `qa`.  As the project grows further, developers may add their own special environments like `joes-staging`, resulting in a combinatorial explosion of config which makes managing deploys of the app very brittle.
+設定管理のもう1つの側面はグループである。アプリケーションは設定を特定のデプロイにちなんで名付けられる名前付きのグループ（しばしば"環境"と呼ばれる）にまとめることがある。例えば、Railsにおける`development`、`test`、`production`環境である。この方法はうまくスケールしない。アプリケーションのデプロイが増えるにつれて、新しい環境名（`staging`や`qa`）が必要になる。さらにプロジェクトが拡大すると、開発者は`joes-staging`のような自分用の特別な環境を追加し、結果的に設定が組み合わせ的に爆発し、アプリケーションのデプロイの管理が非常に不安定にある。
 
-In a twelve-factor app, env vars are granular controls, each fully orthogonal to other env vars.  They are never grouped together as "environments," but instead are independently managed for each deploy.  This is a model that scales up smoothly as the app naturally expands into more deploys over its lifetime.
-
+twelve-factor appの場合、環境変数は粒度の細かい管理であり、それぞれの環境変数は互いに直交している。環境変数は"環境"としてまとめられることはないが、代わりにデプロイごとに独立して管理される。これは、アプリケーションのライフサイクルに渡って、アプリケーションが多くのデプロイへと自然に拡大していくにつれて、スムーズにスケールアップするモデルである。
