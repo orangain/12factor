@@ -1,12 +1,13 @@
-Introduction
+はじめに
 ============
 
-In the modern era, software is commonly delivered as a service: called *web apps*, or *software-as-a-service*.  The twelve-factor app is a methodology for building software-as-a-service apps that:
+現代では、一般にソフトウェアはサービスとして提供され、*Webアプリケーション*や*Software as a Service*と呼ばれる。The twelve-factor appは、次の条件を満たすSoftware as a Serviceを作り上げるための方法論である。
 
-* Use **declarative** formats for setup automation, to minimize time and cost for new developers joining the project;
-* Have a **clean contract** with the underlying operating system, offering **maximum portability** between execution environments;
-* Are suitable for **deployment** on modern **cloud platforms**, obviating the need for servers and systems administration;
-* **Minimize divergence** between development and production, enabling **continuous deployment** for maximum agility;
-* And can **scale up** without significant changes to tooling, architecture, or development practices.
+* セットアップの自動化のために**宣言的な**フォーマットを使い、プロジェクトに新しく加わった開発者のための時間とコストを最小化する。 
+* 下層のOSと**きれいな契約**を結び、実行環境間での**最大限の移植性** を提供する。
+* モダンな**クラウド・プラットフォーム**上への**デプロイ**に適しており、サーバー管理やシステム管理を不要なものにする。
+* 開発環境と本番環境の**相違を最小限**にし、アジリティを最大化する**継続的デプロイ**を可能にする。
+* ツール、アーキテクチャ、開発プラクティスを大幅に変更することなく**スケールアップ**できる。
 
-The twelve-factor methodology can be applied to apps written in any programming language, and which use any combination of backing services (database, queue, memory cache, etc).
+The twelve-factorの方法論は、どのようなプログラミング言語で書かれたアプリケーションにでも適用できる。
+また、どのようなバックエンドのサービス（データベース、キュー、メモリキャッシュなど）の組み合わせを使っていても適用できる。

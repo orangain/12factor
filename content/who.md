@@ -1,4 +1,4 @@
-Who should read this document?
+このドキュメントの対象者
 ==============================
 
-Any developer building applications which run as a service.  Ops engineers who deploy or manage such applications.
+サービスとして動くアプリケーションを開発しているすべての開発者。およびそのようなアプリケーションをデプロイまたは管理しているインフラエンジニア。
