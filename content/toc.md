@@ -1,17 +1,17 @@
 The Twelve Factors
 ==================
 
-## [I. Codebase](/codebase)
-### One codebase tracked in revision control, many deploys
+## [I. コードベース](/codebase)
+### バージョン管理されている1つのコードベースと複数のデプロイ
 
-## [II. Dependencies](/dependencies)
-### Explicitly declare and isolate dependencies
+## [II. 依存関係](/dependencies)
+### 依存関係を明示的に宣言し分離する
 
-## [III. Config](/config)
-### Store config in the environment
+## [III. 設定](/config)
+### 設定を環境変数に格納する
 
-## [IV. Backing Services](/backing-services)
-### Treat backing services as attached resources
+## [IV. バックエンド・サービス](/backing-services)
+### バックエンド・サービスをアタッチされたリソースとして扱う
 
 ## [V. Build, release, run](/build-release-run)
 ### Strictly separate build and run stages
