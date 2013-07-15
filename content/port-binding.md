@@ -1,14 +1,14 @@
-## VII. Port binding
-### Export services via port binding
+## VII. ポートバインディング
+### ポートバインディングを通してサービスを公開する
 
-Web apps are sometimes executed inside a webserver container.  For example, PHP apps might run as a module inside [Apache HTTPD](http://httpd.apache.org/), or Java apps might run inside [Tomcat](http://tomcat.apache.org/).
+WebアプリケーションはWebサーバーコンテナの内部で実行されることがある。例えば、PHPアプリケーションは[Apache HTTPD](http://httpd.apache.org/)内部のモジュールとして実行されるだろうし、Javaアプリケーションは[Tomcat](http://tomcat.apache.org/)の内部で実行されるだろう。
 
-**The twelve-factor app is completely self-contained** and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.  The web app **exports HTTP as a service by binding to a port**, and listening to requests coming in on that port.
+**Twelve-Factor Appは完全に自己完結型** であり、Webに公開されるサービスを作成するために、コンテナが実行環境にWebサーバーのランタイムを注入することを頼りにしない。（原文：**The twelve-factor app is completely self-contained** and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.）Webアプリケーションは **HTTPをポートにバインドすることでサービスとして公開し、** そのポートにリクエストが来るのを待つ。
 
-In a local development environment, the developer visits a service URL like `http://localhost:5000/` to access the service exported by their app.  In deployment, a routing layer handles routing requests from a public-facing hostname to the port-bound web processes.
+ローカルの開発環境では、開発者はアプリケーションによって公開されたサービスにアクセスするために、`http://localhost:5000/`のようなサービスのURLにアクセスする。本番環境では、ルーティング層が外部に公開しているホスト名からポートにバインドされたWebプロセスへとリクエストをルーティングする。
 
-This is typically implemented by using [dependency declaration](/dependencies) to add a webserver library to the app, such as [Tornado](http://www.tornadoweb.org/) for Python, [Thin](http://code.macournoyer.com/thin/) for Ruby, or [Jetty](http://jetty.codehaus.org/jetty/) for Java and other JVM-based languages.  This happens entirely in *user space*, that is, within the app's code.  The contract with the execution environment is binding to a port to serve requests.
+これは一般に、[依存関係宣言](/dependencies)を使ってWebサーバーライブラリをアプリケーションに追加することで実装される。Webサーバーライブラリの例として、Pythonにおける[Tornado](http://www.tornadoweb.org/)、Rubyにおける[Thin](http://code.macournoyer.com/thin/)、Javaやその他のJVMベースの言語における[Jetty](http://jetty.codehaus.org/jetty/)などがある。これは *ユーザー空間* すなわちアプリケーションのコード内で完結する。リクエストを処理するための実行環境との契約は、ポートをバインドすることである。
 
-HTTP is not the only service that can be exported by port binding.  Nearly any kind of server software can be run via a process binding to a port and awaiting incoming requests.  Examples include [ejabberd](http://www.ejabberd.im/) (speaking [XMPP](http://xmpp.org/)), and [Redis](http://redis.io/) (speaking the [Redis protocol](http://redis.io/topics/protocol)).
+ポートバインディングによって公開されるサービスはHTTPだけではない。ほぼすべてのサーバーソフトウェアは、ポートをバインドしてリクエストを待つプロセスを用いて動作する。例として、[ejabberd](http://www.ejabberd.im/)（[XMPP](http://xmpp.org/)を話す）や [Redis](http://redis.io/)（[Redisプロトコル](http://redis.io/topics/protocol)を話す）などがある。
 
-Note also that the port-binding approach means that one app can become the [backing service](/backing-services) for another app, by providing the URL to the backing app as a resource handle in the [config](/config) for the consuming app.
+ここで注目すべきは、ポートバインディングの方法によって、あるアプリケーションが他のアプリケーションにとっての[バックエンドサービス](/backing-services)になれる点である。バックエンドアプリケーションへのURLを提供し、利用するアプリケーションの[設定](/config)にリソースハンドルとして格納すればよい。
