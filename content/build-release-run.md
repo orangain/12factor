@@ -4,7 +4,7 @@
 [コードベース](/codebase)は3つのステージを経て、（開発環境ではない）デプロイへと変換される。
 
 * *ビルドステージ* は、コードリポジトリを *ビルド* と呼ばれる実行可能な塊へと変える変換である。デプロイ作業で指定したコミットのバージョンのコードを使って、ビルドステージは[依存関係](/dependencies)を取得してローカル環境に配置し、バイナリやアセットファイルをコンパイルする。（原文：Using a version of the code at a commit specified by the deployment process, the build stage fetches and vendors [dependencies](/dependencies) and compiles binaries and assets.）
-* *リリースステージ* は、ビルドステージで生成されたビルドを受け取り、それをデプロイの現在の[設定](/config)と結合する。出来上がる *リリース* にはビルドと設定の両方が含まれ、実行環境の中ですぐにでも実行出来るよう準備が整う。
+* *リリースステージ* は、ビルドステージで生成されたビルドを受け取り、それをデプロイの現在の[設定](/config)と結合する。出来上がる *リリース* にはビルドと設定の両方が含まれ、実行環境の中ですぐにでも実行できるよう準備が整う。
 * *実行ステージ* （ランタイムとも呼ばれる）は、選択したリリースを背景に、アプリケーションのいくつかの[プロセス](/processes)を起動することで、アプリケーションを実行環境の中で実行する。（原文：The *run stage* (also known as "runtime") runs the app in the execution environment, by launching some set of the app's [processes](/processes) against a selected release.）
 
 ![コードがビルドになり、ビルドと設定が結合されてリリースが作られる。](/images/release.png)
