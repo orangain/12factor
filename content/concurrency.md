@@ -1,14 +1,14 @@
-## VIII. Concurrency
-### Scale out via the process model
+## VIII. 並行性
+### プロセスモデルによってスケールアウトする
 
-Any computer program, once run, is represented by one or more processes.  Web apps have taken a variety of process-execution forms.  For example, PHP processes run as child processes of Apache, started on demand as needed by request volume.  Java processes take the opposite approach, with the JVM providing one massive uberprocess that reserves a large block of system resources (CPU and memory) on startup, with concurrency managed internally via threads.  In both cases, the running process(es) are only minimally visible to the developers of the app.
+すべてのコンピュータープログラムは、一度実行されると、1つ以上のプロセスとして表される。Webアプリケーションでは様々なプロセス実行形態がとられてきた。例えば、PHPのプロセスはApacheの子プロセスとして実行され、リクエスト量に応じて起動される。Javaプロセスは反対の方法をとる。JVMが1つの巨大な親プロセスを提供し、起動時にシステムリソース（CPUやメモリ）の大きなブロックを確保し、スレッドを使って内部的に並行性を管理する。どちらの場合でも、実行されるプロセスはアプリケーションの開発者にはほとんど見えない。
 
-![Scale is expressed as running processes, workload diversity is expressed as process types.](/images/process-types.png)
+![スケールは実行されるプロセスの数として表現され、ワークロードの種類はプロセスタイプとして表現される。](/images/process-types.png)
 
-**In the twelve-factor app, processes are a first class citizen.**  Processes in the twelve-factor app take strong cues from [the unix process model for running service daemons](http://adam.heroku.com/past/2011/5/9/applying_the_unix_process_model_to_web_apps/).  Using this model, the developer can architect their app to handle diverse workloads by assigning each type of work to a *process type*.  For example, HTTP requests may be handled by a web process, and long-running background tasks handled by a worker process.
+**Twelve-Factor Appではプロセスは第一級市民である。** Twelve-Factor Appにおけるプロセスの考え方は、[サービスのデーモンを実行するためのUnixプロセスモデル](http://adam.heroku.com/past/2011/5/9/applying_the_unix_process_model_to_web_apps/)から大きなヒントを得ている。このモデルを使い、個々のワークロードの種類を *プロセスタイプ* に割り当てることで、開発者はアプリケーションが多様なワークロードを扱えるように設計することができる。例えば、HTTPリクエストはWebプロセスによって処理し、時間のかかるバックグラウンドタスクはワーカープロセスによって処理することができる。
 
-This does not exclude individual processes from handling their own internal multiplexing, via threads inside the runtime VM, or the async/evented model found in tools such as [EventMachine](http://rubyeventmachine.com/), [Twisted](http://twistedmatrix.com/trac/), or [Node.js](http://nodejs.org/).  But an individual VM can only grow so large (vertical scale), so the application must also be able to span multiple processes running on multiple physical machines.
+このモデルは、ランタイムVM内のスレッドや、[EventMachine](http://rubyeventmachine.com/)、[Twisted](http://twistedmatrix.com/trac/)、[Node.js](http://nodejs.org/)などの非同期イベントモデルによって、個々のプロセスがプロセス内部で多重化することを禁止するわけではない。しかし個々のVMはそれほど大きくなる（垂直にスケールする）ことができないため、アプリケーションは複数の物理マシンで動作する複数のプロセスへと拡大できなければならない。
 
-The process model truly shines when it comes time to scale out.  The [share-nothing, horizontally partitionable nature of twelve-factor app processes](/processes) means that adding more concurrency is a simple and reliable operation.  The array of process types and number of processes of each type is known as the *process formation*.
+このプロセスモデルが本当に輝くのは、スケールアウトが必要になったときである。[シェアードナッシングで水平分割可能であるTwelve-Factor Appのプロセスの性質](/processes)は、並行性を高める操作が単純かつ確実なものであることを意味する。プロセスタイプとそれぞれのタイプのプロセス数の配列は、 *プロセスフォーメーション* と言われる。
 
-Twelve-factor app processes [should never daemonize](http://dustin.github.com/2010/02/28/running-processes.html) or write PID files.  Instead, rely on the operating system's process manager (such as [Upstart](http://upstart.ubuntu.com/), a distributed process manager on a cloud platform, or a tool like [Foreman](http://blog.daviddollar.org/2011/05/06/introducing-foreman.html) in development) to manage [output streams](/logs), respond to crashed processes, and handle user-initiated restarts and shutdowns.
+Twelve-Factor Appのプロセスは[決してデーモン化するべきではないし](http://dustin.github.com/2010/02/28/running-processes.html)、PIDファイルを書き出すべきではない。その代わりに、OSのプロセスマネージャー（例：[Upstart](http://upstart.ubuntu.com/)、クラウドプラットフォームの分散プロセスマネージャー、あるいは開発環境における[Foreman](http://blog.daviddollar.org/2011/05/06/introducing-foreman.html)のようなツール）を頼ることで、[出力ストリーム](/logs)を管理し、プロセスのクラッシュに対応し、ユーザーによる再起動やシャットダウンを処理すべきである。
