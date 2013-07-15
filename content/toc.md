@@ -19,11 +19,11 @@ The Twelve Factors
 ## [VI. プロセス](/processes)
 ### アプリケーションを1つもしくは複数のステートレスなプロセスとして実行する
 
-## [VII. Port binding](/port-binding)
-### Export services via port binding
+## [VII. ポートバインディング](/port-binding)
+### ポートバインディングを通してサービスを公開する
 
-## [VIII. Concurrency](/concurrency)
-### Scale out via the process model
+## [VIII. 並行性](/concurrency)
+### プロセスモデルによってスケールアウトする
 
 ## [IX. Disposability](/disposability)
 ### Maximize robustness with fast startup and graceful shutdown
