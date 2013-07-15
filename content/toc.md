@@ -13,11 +13,11 @@ The Twelve Factors
 ## [IV. バックエンド・サービス](/backing-services)
 ### バックエンド・サービスをアタッチされたリソースとして扱う
 
-## [V. Build, release, run](/build-release-run)
-### Strictly separate build and run stages
+## [V. ビルド、リリース、実行](/build-release-run)
+### ビルド、リリース、実行の3つのステージを厳密に分離する
 
-## [VI. Processes](/processes)
-### Execute the app as one or more stateless processes
+## [VI. プロセス](/processes)
+### アプリケーションを1つもしくは複数のステートレスなプロセスとして実行する
 
 ## [VII. Port binding](/port-binding)
 ### Export services via port binding
