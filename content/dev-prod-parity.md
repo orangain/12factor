@@ -1,76 +1,78 @@
-## X. Dev/prod parity
-### Keep development, staging, and production as similar as possible
+## X. 開発/本番一致
+### 開発、ステージング、本番環境をできるだけ一致させた状態を保つ
 
-Historically, there have been substantial gaps between development (a developer making live edits to a local [deploy](/codebase) of the app) and production (a running deploy of the app accessed by end users).  These gaps manifest in three areas:
+歴史的に、開発環境（開発者が直接変更するアプリケーションのローカル[デプロイ](/codebase)）と本番環境（エンドユーザーからアクセスされるアプリケーションの実行中デプロイ）の間には大きなギャップがあった。これらのギャップは3つの領域で現われる。
 
-* **The time gap:** A developer may work on code that takes days, weeks, or even months to go into production.
-* **The personnel gap**: Developers write code, ops engineers deploy it.
-* **The tools gap**: Developers may be using a stack like Nginx, SQLite, and OS X, while the production deploy uses Apache, MySQL, and Linux.
+* **時間のギャップ**: 開発者が編集したコードが本番に反映されるまで数日、数週間、時には数ヶ月かかることがある。
+* **人材のギャップ**: 開発者がコードを書き、インフラエンジニアがデプロイする。
+* **ツールのギャップ**: 開発者はNginx、SQLite、OS Xのようなスタックを使い、本番デプロイではApache、MySQL、Linuxを使うことがある。
 
-**The twelve-factor app is designed for [continuous deployment](http://www.avc.com/a_vc/2011/02/continuous-deployment.html) by keeping the gap between development and production small.**  Looking at the three gaps described above:
+**Twelve-Factor Appでは、[継続的デプロイ](http://www.avc.com/a_vc/2011/02/continuous-deployment.html)しやすいよう開発環境と本番環境のギャップを小さく保つ。** 上で述べた3つのギャップを見る。
 
-* Make the time gap small: a developer may write code and have it deployed hours or even just minutes later.
-* Make the personnel gap small: developers who wrote code are closely involved in deploying it and watching its behavior in production.
-* Make the tools gap small: keep development and production as similar as possible.
+* 時間のギャップを小さくする: 開発者が書いたコードは数時間後、さらには数分後にはデプロイされる。
+* 人材のギャップを小さくする: コードを書いた開発者はそのコードのデプロイに深く関わり、そのコードの本番環境での挙動をモニタリングする。
+* ツールのギャップを小さくする: 開発環境と本番環境をできるだけ一致させた状態を保つ。
 
-Summarizing the above into a table:
+上で述べたことを表にまとめる。
 
 <table>
   <tr>
     <th></th>
-    <th>Traditional app</th>
-    <th>Twelve-factor app</th>
+    <th>伝統的なアプリケーション</th>
+    <th>Twelve-Factor App</th>
   </tr>
   <tr>
-    <th>Time between deploys</th>
-    <td>Weeks</td>
-    <td>Hours</td>
+    <th>デプロイの間隔</th>
+    <td>数週間</td>
+    <td>数時間</td>
   </tr>
   <tr>
-    <th>Code authors vs code deployers</th>
-    <td>Different people</td>
-    <td>Same people</td>
+    <th>コードを書く人とデプロイする人</th>
+    <td>異なる人</td>
+    <td>同じ人</td>
   </tr>
   <tr>
-    <th>Dev vs production environments</th>
-    <td>Divergent</td>
-    <td>As similar as possible</td>
+    <th>開発環境と本番環境</th>
+    <td>異なる</td>
+    <td>できるだけ一致</td>
   </tr>
 </table>
 
-[Backing services](/backing-services), such as the app's database, queueing system, or cache, is one area where dev/prod parity is important.  Many languages offer libraries which simplify access to the backing service, including *adapters* to different types of services.  Some examples are in the table below.
+
+[バックエンドサービス](/backing-services)（アプリケーションのデータベース、キューイングシステム、キャッシュなど）は、開発/本番一致が重要になる領域の一つである。多くの言語は、異なる種類のサービスへの *アダプター* を含め、バックエンド・サービスへのアクセスを単純化するライブラリを提供している。以下の表にいくつかの例を示す。
+
 
 <table>
   <tr>
-    <th>Type</th>
-    <th>Language</th>
-    <th>Library</th>
-    <th>Adapters</th>
+    <th>種類</th>
+    <th>言語</th>
+    <th>ライブラリ</th>
+    <th>アダプター</th>
   </tr>
   <tr>
-    <td>Database</td>
+    <td>データベース</td>
     <td>Ruby/Rails</td>
     <td>ActiveRecord</td>
     <td>MySQL, PostgreSQL, SQLite</td>
   </tr>
   <tr>
-    <td>Queue</td>
+    <td>キュー</td>
     <td>Python/Django</td>
     <td>Celery</td>
     <td>RabbitMQ, Beanstalkd, Redis</td>
   </tr>
   <tr>
-    <td>Cache</td>
+    <td>キャッシュ</td>
     <td>Ruby/Rails</td>
     <td>ActiveSupport::Cache</td>
-    <td>Memory, filesystem, Memcached</td>
+    <td>メモリ, ファイルシステム, Memcached</td>
   </tr>
 </table>
 
-Developers sometimes find great appeal in using a lightweight backing service in their local environments, while a more serious and robust backing service will be used in production.  For example, using SQLite locally and PostgreSQL in production; or local process memory for caching in development and Memcached in production.
+開発者は、本番環境ではより本格的で堅牢なバックエンドサービスが使われるのに、自身のローカル開発環境で軽量なバックエンドサービスを使うことに大きな魅力を感じることがある。例えば、ローカルではSQLiteを使い、本番ではPostgreSQLを使ったり、開発環境ではローカルプロセスのメモリをキャッシュに使い、本番ではMemcachedを使ったりするなど。
 
-**The twelve-factor developer resists the urge to use different backing services between development and production**, even when adapters theoretically abstract away any differences in backing services.  Differences between backing services mean that tiny incompatibilities crop up, causing code that worked and passed tests in development or staging to fail in production.  These types of errors create friction that disincentivizes continuous deployment.  The cost of this friction and the subsequent dampening of continuous deployment is extremely high when considered in aggregate over the lifetime of an application.
+**Twelve-Factorの開発者は、開発と本番の間で異なるバックエンドサービスを使いたくなる衝動に抵抗する。** たとえ理論的にはアダプターがバックエンドサービスの違いをすべて抽象化してくれるとしても。バックエンドサービスの違いは、わずかな非互換性が顕在化し、開発環境やステージング環境では正常に動作してテストも通過するコードが本番環境でエラーを起こす事態を招くことを意味する。この種のエラーは継続的デプロイを妨げる摩擦を生む。この摩擦とそれに伴って継続的デプロイが妨げられることのコストは、アプリケーションのライフサイクルに渡って合計することを考えると非常に高くつく。
 
-Lightweight local services are less compelling than they once were.  Modern backing services such as Memcached, PostgreSQL, and RabbitMQ are not difficult to install and run thanks to modern packaging systems, such as [Homebrew](http://mxcl.github.com/homebrew/) and [apt-get](https://help.ubuntu.com/community/AptGet/Howto).  Alternatively, declarative provisioning tools such as [Chef](http://www.opscode.com/chef/) and [Puppet](http://docs.puppetlabs.com/) combined with light-weight virtual environments such as [Vagrant](http://vagrantup.com/) allow developers to run local environments which closely approximate production environments. The cost of installing and using these systems is low compared to the benefit of dev/prod parity and continuous deployment.
+軽量なローカルサービスは、以前ほど魅力的なものではなくなっている。Memcached、PostgreSQLやRabbitMQなどのモダンなバックエンドサービスは、[Homebrew](http://mxcl.github.com/homebrew/) や [apt-get](https://help.ubuntu.com/community/AptGet/Howto) などのモダンなパッケージングシステムのおかげで、簡単にインストールして実行できる。あるいは [Chef](http://www.opscode.com/chef/) や [Puppet](http://docs.puppetlabs.com/) などの宣言的なプロビジョニングツールと、[Vagrant](http://vagrantup.com/) などの軽量な仮想環境を組み合わせることで、開発者は本番環境に限りなく近いローカル環境を作ることができる。これらのシステムをインストールして利用するコストは、開発/本番一致と継続的デプロイの利益よりも低い。
 
-Adapters to different backing services are still useful, because they make porting to new backing services relatively painless.  But all deploys of the app (developer environments, staging, production) should be using the same type and version of each of the backing services.
+異なるバックエンドサービスへのアダプターは依然有用である。これらのアダプターは、新しいバックエンドサービスに移植するときの苦痛を比較的和らげてくれるためである。しかし、アプリケーションのすべてのデプロイ（開発、ステージング、本番環境）は同じ種類かつ同じバージョンのバックエンドサービスを利用するべきである。
