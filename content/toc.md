@@ -25,11 +25,11 @@ The Twelve Factors
 ## [VIII. 並行性](/concurrency)
 ### プロセスモデルによってスケールアウトする
 
-## [IX. Disposability](/disposability)
-### Maximize robustness with fast startup and graceful shutdown
+## [IX. 廃棄可能性](/disposability)
+### 高速な起動とグレースフルシャットダウンで堅牢性を最大化する
 
-## [X. Dev/prod parity](/dev-prod-parity)
-### Keep development, staging, and production as similar as possible
+## [X. 開発/本番一致](/dev-prod-parity)
+### 開発、ステージング、本番環境をできるだけ一致させた状態を保つ
 
 ## [XI. Logs](/logs)
 ### Treat logs as event streams
