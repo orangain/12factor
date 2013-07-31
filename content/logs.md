@@ -1,16 +1,16 @@
-## XI. Logs
-### Treat logs as event streams
+## XI. ログ
+### ログをイベントストリームとして扱う
 
-*Logs* provide visibility into the behavior of a running app.  In server-based environments they are commonly written to a file on disk (a "logfile"); but this is only an output format.
+*ログ* は実行中のアプリケーションの挙動を可視化する。サーバーベースの環境では、ログは一般的にディスク上のファイル（"ログファイル"）に書き込まれる。しかしこれは出力フォーマットの一つに過ぎない。
 
-Logs are the [stream](http://adam.heroku.com/past/2011/4/1/logs_are_streams_not_files/) of aggregated, time-ordered events collected from the output streams of all running processes and backing services.  Logs in their raw form are typically a text format with one event per line (though backtraces from exceptions may span multiple lines).  Logs have no fixed beginning or end, but flow continously as long as the app is operating.
+ログは、すべての実行中のプロセスとバックエンドサービスの出力ストリームから収集されたイベントが、集約されて時刻順に並べられた[ストリーム](http://adam.heroku.com/past/2011/4/1/logs_are_streams_not_files/)である。生の状態のログは、通常1行が1つのイベントを表すテキストフォーマットである（例外のバックトレースは複数行に渡る場合もあるが）。ログには固定の始まりと終わりはなく、アプリケーションが稼動している限り流れ続ける。
 
-**A twelve-factor app never concerns itself with routing or storage of its output stream.**  It should not attempt to write to or manage logfiles.  Instead, each running process writes its event stream, unbuffered, to `stdout`.  During local development, the developer will view this stream in the foreground of their terminal to observe the app's behavior.
+**Twelve-Factor Appはアプリケーションの出力ストリームの送り先やストレージについて一切関知しない。** アプリケーションはログファイルに書き込んだり管理しようとするべきではない。代わりに、それぞれの実行中のプロセスはイベントストリームを`stdout`（標準出力）にバッファリングせずに書きだす。ローカルでの開発中、開発者はこのストリームをターミナルのフォアグラウンドで見ることで、アプリケーションの挙動を観察する。
 
-In staging or production deploys, each process' stream will be captured by the execution environment, collated together with all other streams from the app, and routed to one or more final destinations for viewing and long-term archival.  These archival destinations are not visible to or configurable by the app, and instead are completely managed by the execution environment.  Open-source log routers (such as [Logplex](https://github.com/heroku/logplex) and [Fluent](https://github.com/fluent/fluentd)) are available for this purpose.  
+ステージングや本番のデプロイでは、それぞれのプロセスのストリームは実行環境に捕らえられ、アプリケーションからの他のすべてのストリームと一緒に並べられ、表示や長期間のアーカイブのために1つ以上の最終目的地に送られる。これらの保存のための目的地は、アプリケーションからは見ることも設定することもできず、代わりに実行環境によって完全に管理される。[Logplex](https://github.com/heroku/logplex) や [Fluent](https://github.com/fluent/fluentd) などのオープンソースのログルーターがこの目的に利用できる。
 
-The event stream for an app can be routed to a file, or watched via realtime tail in a terminal.  Most significantly, the stream can be sent to a log indexing and analysis system such as [Splunk](http://www.splunk.com/), or a general-purpose data warehousing system such as [Hadoop/Hive](http://hive.apache.org/).  These systems allow for great power and flexibility for introspecting an app's behavior over time, including:
+アプリケーションのイベントストリームは、ファイルに送られたり、ターミナルでのリアルタイムのtailで見られたりする。最も重要な用途として、ストリームは、[Splunk](http://www.splunk.com/)などのログインデックス・解析システムや、[Hadoop/Hive](http://hive.apache.org/)などの汎用データウェアハウスシステムに送られることもある。これらのシステムは、長期に渡ってアプリケーションの挙動を確認するための大きな力と柔軟性をもたらし、次のようなことができるようになる。
 
-* Finding specific events in the past.
-* Large-scale graphing of trends (such as requests per minute).
-* Active alerting according to user-defined heuristics (such as an alert when the quantity of errors per minute exceeds a certain threshold).
+* 過去の特定のイベントを見つける。
+* 大きなスケールのトレンドをグラフ化する。（1分あたりのリクエスト数など）
+* ユーザーが定義したヒューリスティクスによって素早いアラートを出す（1分あたりのエラー数がある閾値を超えた場合にアラートを出すなど）
