@@ -31,8 +31,8 @@ The Twelve Factors
 ## [X. 開発/本番一致](/dev-prod-parity)
 ### 開発、ステージング、本番環境をできるだけ一致させた状態を保つ
 
-## [XI. Logs](/logs)
-### Treat logs as event streams
+## [XI. ログ](/logs)
+### ログをイベントストリームとして扱う
 
-## [XII. Admin processes](/admin-processes)
-### Run admin/management tasks as one-off processes
+## [XII. 管理プロセス](/admin-processes)
+### 管理タスクを1回限りのプロセスとして実行する
