@@ -25,7 +25,7 @@ The Twelve Factors
 ## [VIII. 並行性](/concurrency)
 ### プロセスモデルによってスケールアウトする
 
-## [IX. 廃棄可能性](/disposability)
+## [IX. 廃棄容易性](/disposability)
 ### 高速な起動とグレースフルシャットダウンで堅牢性を最大化する
 
 ## [X. 開発/本番一致](/dev-prod-parity)
