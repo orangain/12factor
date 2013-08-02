@@ -3,7 +3,7 @@
 
 WebアプリケーションはWebサーバーコンテナの内部で実行されることがある。例えば、PHPアプリケーションは[Apache HTTPD](http://httpd.apache.org/)内部のモジュールとして実行されるだろうし、Javaアプリケーションは[Tomcat](http://tomcat.apache.org/)の内部で実行されるだろう。
 
-**Twelve-Factor Appは完全に自己完結型** であり、Webに公開されるサービスを作成するために、コンテナが実行環境にWebサーバーのランタイムを注入することを頼りにしない。（原文：**The twelve-factor app is completely self-contained** and does not rely on runtime injection of a webserver into the execution environment to create a web-facing service.）Webアプリケーションは **HTTPをポートにバインドすることでサービスとして公開し、** そのポートにリクエストが来るのを待つ。
+**Twelve-Factor Appは完全に自己完結** し、Webに公開されるサービスを作成するために、コンテナによって実行環境にWebサーバーのランタイムが注入されることを頼りにしない。Webアプリケーションは **ポートにバインドすることでHTTPをサービスとして公開し、** そのポートにリクエストが来るのを待つ。
 
 ローカルの開発環境では、開発者はアプリケーションによって公開されたサービスにアクセスするために、`http://localhost:5000/`のようなサービスのURLにアクセスする。本番環境では、ルーティング層が外部に公開しているホスト名からポートにバインドされたWebプロセスへとリクエストをルーティングする。
 

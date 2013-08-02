@@ -3,7 +3,7 @@
 
 アプリケーションは、実行環境の中で1つもしくは複数の *プロセス* として実行される。
 
-最も単純な場合では、コードは単体のスクリプトであり、実行環境は言語ランタイムがインストールされた開発者のローカルノートPCであり、プロセスはコマンドラインから実行される。（例：`python my_script.py`）スペクトラムの反対側にあるのが、[0以上の実行プロセスとしてインスタンス化される多くのプロセスタイプ](/concurrency)を使う洗練されたアプリケーションの本番デプロイである。（原文：On the other end of the spectrum, a production deploy of a sophisticated app may use many [process types, instantiated into zero or more running processes](/concurrency).）
+最も単純な場合では、コードは単体のスクリプトであり、実行環境は言語ランタイムがインストールされた開発者のローカルノートPCであり、プロセスはコマンドラインから実行される（例：`python my_script.py`）。対極にあるのが、[0以上の実行プロセスとしてインスタンス化される多くのプロセスタイプ](/concurrency)を使う洗練されたアプリケーションの本番デプロイである。
 
 **Twelve-Factorのプロセスはステートレスかつ[シェアードナッシング](http://en.wikipedia.org/wiki/Shared_nothing_architecture)** である。永続化する必要のあるすべてのデータはステートフルな[バックエンドサービス](/backing-services)（典型的にはデータベース）に格納しなければならない。
 
