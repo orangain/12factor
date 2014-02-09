@@ -9,5 +9,4 @@
 
 ワーカープロセスの場合、グレースフルシャットダウンは、処理中のジョブをワーカーキューに戻すことで実現される。例えば、[RabbitMQ](http://www.rabbitmq.com/)ではワーカーは[`NACK`](http://www.rabbitmq.com/amqp-0-9-1-quickref.html#basic.nack)を送ることができる。[Beanstalkd](http://kr.github.com/beanstalkd/)では、ワーカーの接続が失われるとジョブは自動的にキューに戻る。[Delayed Job](https://github.com/collectiveidea/delayed_job#readme)などのロックをベースにしたシステムでは、ジョブレコードのロックを確実に解放する必要がある。このモデルでは、暗黙的にすべてのジョブが[再入可能](http://en.wikipedia.org/wiki/Reentrant_%28subroutine%29)であることを仮定している。再入可能性は一般的に、結果をトランザクションで包んだり、処理を[べき等](http://en.wikipedia.org/wiki/Idempotence)にすることで実現される。
 
-また、下層のハードウェアの障害に関して言えば、プロセスは **突然の死に対して堅牢** であるべきである。このような事態が起こることは、`SIGTERM`によるグレースフルシャットダウンに比べればずっと少ないが、それでも起こりうる。この対策として推奨される方法は、Beanstalkdなどの堅牢なキューイングバックエンドを使い、クライアントの接続が切断されたり、タイムアウトしたときにジョブをキューに戻せるようにすることである。どちらにしても、Twelve-Factor Appは予期しないグレースフルでない停止をうまく処理できるよう設計される。[「クラッシュオンリー」設計](http://lwn.net/Articles/191059/)はこのコンセプトをその[論理的帰結](http://couchdb.apache.org/docs/overview.html)に導く。
-
+また、下層のハードウェアの障害に関して言えば、プロセスは **突然の死に対して堅牢** であるべきである。このような事態が起こることは、`SIGTERM`によるグレースフルシャットダウンに比べればずっと少ないが、それでも起こりうる。この対策として推奨される方法は、Beanstalkdなどの堅牢なキューイングバックエンドを使い、クライアントの接続が切断されたり、タイムアウトしたときにジョブをキューに戻せるようにすることである。どちらにしても、Twelve-Factor Appは予期しないグレースフルでない停止をうまく処理できるよう設計される。[「クラッシュオンリー」設計](http://lwn.net/Articles/191059/)はこのコンセプトをその[論理的帰結](http://docs.couchdb.org/en/latest/intro/overview.html)に導く。
