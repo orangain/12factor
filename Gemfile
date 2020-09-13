@@ -1,5 +1,4 @@
-source 'http://rubygems.org'
-ruby '2.2.4'
+source 'https://rubygems.org'
+ruby '>= 2.3.5', '< 2.8'
 
-gem 'sinatra', '1.2.6'
-gem 'thin', '1.2.7'
+gem 'sinatra', '2.1.0'
